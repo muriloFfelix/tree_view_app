@@ -10,4 +10,5 @@ Initially, adding filters for the remaining status and sensor type would dispose
 
 In the possibility of improving the API, I would personally increase and enhance the calls for assets and locations in a way that could transfer all the filtering algorithms to the back-end side of the operation.
 
-## Setup
+## Video demonstration
+https://photos.app.goo.gl/UuFJBXywCu4VkzDh9
