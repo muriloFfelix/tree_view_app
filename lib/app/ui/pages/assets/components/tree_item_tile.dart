@@ -1,0 +1,91 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tractian_mobile_app/app/domain/entities/asset_entity.dart';
+import 'package:tractian_mobile_app/app/presentation/presenters/getx_assets_presenter.dart';
+import 'package:tractian_mobile_app/app/ui/common/components/asset_icon.dart';
+import 'package:tractian_mobile_app/core/abstracts/basic_entity.dart';
+
+class TreeItemTile extends GetView<GetxAssetsPresenter> {
+  final BasicEntity entity;
+  final int deepness;
+  final RxBool isOpen = false.obs;
+
+  TreeItemTile({
+    super.key,
+    required this.entity,
+    required this.deepness,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    isOpen.value = controller.filterIds.isNotEmpty;
+
+    final String leadingIcon = entity is! AssetEntity
+        ? 'assets/images/location_icon.png'
+        : (entity as AssetEntity).sensorType != null
+            ? 'assets/images/codepen_icon.png'
+            : 'assets/images/cube_icon.png';
+
+    return Obx(
+      () => Column(
+        children: [
+          TapRegion(
+            onTapInside: (_) => {isOpen.value = !isOpen.value},
+            child: Row(
+              children: [
+                if (deepness == 0)
+                  const SizedBox(
+                    height: 35,
+                  ),
+                for (var i = 0; i < deepness; i++)
+                  Container(
+                    height: 35,
+                    width: 1,
+                    color: const Color(0xFFD8DFE6),
+                  ).marginOnly(left: 15),
+                SizedBox(
+                  width: 30,
+                  child: controller.getItemsGroup(entity.id).isNotEmpty
+                      ? RotatedBox(
+                          quarterTurns: isOpen.value ? 1 : 0,
+                          child: const Icon(
+                            Icons.chevron_right,
+                            size: 20,
+                          ),
+                        )
+                      : Container(
+                          height: deepness == 0 ? 0 : 1,
+                          color: const Color(0xFFD8DFE6),
+                        ),
+                ),
+                AssetIcon(
+                  assetPath: leadingIcon,
+                  color: const Color(0xFF2188FF),
+                  scale: 1.5,
+                ).marginOnly(right: 5),
+                Text(entity.name).marginOnly(right: 5),
+                if (entity is AssetEntity &&
+                    (entity as AssetEntity).sensorType != null)
+                  AssetIcon(
+                    assetPath: (entity as AssetEntity).sensorType!.icon,
+                    color: (entity as AssetEntity).status!.color,
+                    scale: 2,
+                  )
+              ],
+            ),
+          ),
+          if (isOpen.value)
+            ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.getItemsGroup(entity.id).length,
+                itemBuilder: (context, i) {
+                  return TreeItemTile(
+                      entity: controller.getItemsGroup(entity.id)[i],
+                      deepness: deepness + 1);
+                }),
+        ],
+      ),
+    );
+  }
+}
