@@ -18,7 +18,7 @@ class TreeItemTile extends GetView<GetxAssetsPresenter> {
 
   @override
   Widget build(BuildContext context) {
-    isOpen.value = controller.filterIds.isNotEmpty;
+    isOpen.value = !controller.closedIds.contains(entity.id);
 
     final String leadingIcon = entity is! AssetEntity
         ? 'assets/images/location_icon.png'
@@ -30,7 +30,9 @@ class TreeItemTile extends GetView<GetxAssetsPresenter> {
       () => Column(
         children: [
           TapRegion(
-            onTapInside: (_) => {isOpen.value = !isOpen.value},
+            onTapInside: (_) => {
+              controller.handleTreeItemTap(isOpen.value, entity.id),
+            },
             child: Row(
               children: [
                 if (deepness == 0)
@@ -74,16 +76,7 @@ class TreeItemTile extends GetView<GetxAssetsPresenter> {
               ],
             ),
           ),
-          if (isOpen.value)
-            ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.getItemsGroup(entity.id).length,
-                itemBuilder: (context, i) {
-                  return TreeItemTile(
-                      entity: controller.getItemsGroup(entity.id)[i],
-                      deepness: deepness + 1);
-                }),
+          if (isOpen.value) const SizedBox()
         ],
       ),
     );

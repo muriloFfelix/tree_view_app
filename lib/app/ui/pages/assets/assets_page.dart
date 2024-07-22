@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tractian_mobile_app/app/domain/entities/asset_entity.dart';
 import 'package:tractian_mobile_app/app/presentation/presenters/getx_assets_presenter.dart';
 import 'package:tractian_mobile_app/app/ui/pages/assets/components/assets_header.dart';
 import 'package:tractian_mobile_app/app/ui/pages/assets/components/tree_item_tile.dart';
@@ -45,6 +47,9 @@ class AssetsPage extends GetView<GetxAssetsPresenter> {
   }
 
   Widget _createBody() {
+    final itemTree = controller.getTreeList(null);
+    final List<String> idPath = [];
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -53,17 +58,42 @@ class AssetsPage extends GetView<GetxAssetsPresenter> {
           thickness: 0.8,
         ).marginOnly(top: 10),
         Flexible(
-          child: SizedBox(
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              itemCount: controller.getItemsGroup(null).length,
-              itemBuilder: (context, i) {
-                return TreeItemTile(
-                    entity: controller.getItemsGroup(null)[i], deepness: 0);
-              },
-            ),
-          ),
+          child: itemTree.isNotEmpty
+              ? SizedBox(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: itemTree.length,
+                    itemBuilder: (context, i) {
+                      late int deepness;
+                      if (idPath.contains(itemTree[i].parentId)) {
+                        final index = idPath.indexOf(itemTree[i].parentId);
+                        deepness = index + 1;
+                        idPath.removeRange(deepness, idPath.length);
+                      } else if (itemTree[i] is AssetEntity &&
+                          idPath.contains(itemTree[i].locationId)) {
+                        final index = idPath.indexOf(itemTree[i].locationId);
+                        deepness = index + 1;
+                        idPath.removeRange(deepness, idPath.length);
+                      } else {
+                        deepness = 0;
+                        idPath.clear();
+                      }
+                      idPath.add(itemTree[i].id);
+
+                      return TreeItemTile(
+                          entity: itemTree[i], deepness: deepness);
+                    },
+                  ),
+                )
+              : const Text(
+                  'Não há items para serem mostrados com as configurações desejadas',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color(0xFF17192D),
+                  ),
+                ).marginOnly(top: 30),
         ),
       ],
     );
