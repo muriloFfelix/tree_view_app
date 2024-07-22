@@ -29,7 +29,11 @@ class GetxAssetsPresenter extends GetxController {
 
   late final Map<String, List<BasicEntity>> itemsGroups;
 
+  final List<BasicEntity> itemsFlatTree = [];
+
   final List<String> filterIds = [];
+
+  final List<String> closedIds = [];
 
   final inputController = TextEditingController();
 
@@ -134,8 +138,23 @@ class GetxAssetsPresenter extends GetxController {
     }
   }
 
+  List getTreeList(String? parentId) {
+    for (var item in getItemsGroup(parentId.toString())) {
+      if (filterIds.isEmpty || filterIds.contains(item.id)) {
+        itemsFlatTree.add(item);
+        if (!closedIds.contains(item.id)) {
+          getTreeList(item.id);
+        }
+      }
+    }
+    return itemsFlatTree;
+  }
+
   getFilterIds() async {
     isLoading = true;
+    itemsFlatTree.clear();
+    closedIds.clear();
+
     if (!filterByEnergy && !filterByAlert && inputController.text.isEmpty) {
       filterIds.clear();
       isLoading = false;
@@ -160,6 +179,14 @@ class GetxAssetsPresenter extends GetxController {
 
     filterIds.clear();
     filterIds.addAll(ids.isEmpty ? [''] : ids);
+  }
+
+  bool handleTreeItemTap(bool value, String entityId) {
+    isLoading = true;
+    itemsFlatTree.clear();
+    value ? closedIds.add(entityId) : closedIds.remove(entityId);
+    isLoading = false;
+    return value;
   }
 
   // #endregion
