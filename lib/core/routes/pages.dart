@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:tractian_mobile_app/app/ui/pages/assets/assets_bindings.dart';
-import 'package:tractian_mobile_app/app/ui/pages/assets/assets_page.dart';
-import 'package:tractian_mobile_app/app/ui/pages/home/home_bindings.dart';
-import 'package:tractian_mobile_app/app/ui/pages/home/home_page.dart';
+import 'package:tractian_mobile_app/app/presentation/pages/assets/assets_bindings.dart';
+import 'package:tractian_mobile_app/app/presentation/pages/assets/assets_page.dart';
+import 'package:tractian_mobile_app/app/presentation/pages/home/home_bindings.dart';
+import 'package:tractian_mobile_app/app/presentation/pages/home/home_page.dart';
 import 'package:tractian_mobile_app/core/routes/routes.dart';
 
 abstract class AppPages {

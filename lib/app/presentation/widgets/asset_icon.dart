@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AssetIcon extends StatelessWidget {
+  // Handles basic icon customization for given [assetPath] based on [color] and [scale] desired
   final String assetPath;
   final Color? color;
   final double? scale;

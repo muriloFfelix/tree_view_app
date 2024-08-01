@@ -16,11 +16,11 @@ class AssetsPageParams {
   AssetsPageParams({required this.companyId});
 }
 
-class GetxAssetsPresenter extends GetxController {
+class GetxAssetsController extends GetxController {
   final GetLocationsUsecase getLocationsUsecase;
   final GetAssetsUsecase getAssetsUsecase;
 
-  GetxAssetsPresenter(
+  GetxAssetsController(
     this.getLocationsUsecase,
     this.getAssetsUsecase,
   );
@@ -127,7 +127,7 @@ class GetxAssetsPresenter extends GetxController {
 
   // #region pulic methods
 
-  List getItemsGroup(String? parentId) {
+  List<BasicEntity> getItemsGroup(String? parentId) {
     if (filterIds.isEmpty) {
       return itemsGroups[parentId.toString()] ?? [];
     } else {
@@ -138,7 +138,7 @@ class GetxAssetsPresenter extends GetxController {
     }
   }
 
-  List getTreeList(String? parentId) {
+  List<BasicEntity> getTreeList(String? parentId) {
     for (var item in getItemsGroup(parentId.toString())) {
       if (filterIds.isEmpty || filterIds.contains(item.id)) {
         itemsFlatTree.add(item);

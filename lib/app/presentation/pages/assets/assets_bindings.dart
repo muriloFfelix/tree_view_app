@@ -9,7 +9,7 @@ import 'package:tractian_mobile_app/app/domain/repositories/i_asset_repository.d
 import 'package:tractian_mobile_app/app/domain/repositories/i_location_repository.dart';
 import 'package:tractian_mobile_app/app/domain/usecases/get_assets_usecase.dart';
 import 'package:tractian_mobile_app/app/domain/usecases/get_locations_usecase.dart';
-import 'package:tractian_mobile_app/app/presentation/presenters/getx_assets_presenter.dart';
+import 'package:tractian_mobile_app/app/presentation/controllers/getx_assets_controller.dart';
 
 class AssetsBindings implements Bindings {
   @override
@@ -23,7 +23,7 @@ class AssetsBindings implements Bindings {
     Get.lazyPut(() => GetLocationsUsecase(Get.find()));
     Get.lazyPut(() => GetAssetsUsecase(Get.find()));
 
-    Get.lazyPut(() => GetxAssetsPresenter(
+    Get.lazyPut(() => GetxAssetsController(
           Get.find(),
           Get.find(),
         ));

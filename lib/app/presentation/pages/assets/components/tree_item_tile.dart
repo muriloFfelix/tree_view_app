@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tractian_mobile_app/app/domain/entities/asset_entity.dart';
-import 'package:tractian_mobile_app/app/presentation/presenters/getx_assets_presenter.dart';
-import 'package:tractian_mobile_app/app/ui/common/components/asset_icon.dart';
+import 'package:tractian_mobile_app/app/presentation/controllers/getx_assets_controller.dart';
+import 'package:tractian_mobile_app/app/presentation/widgets/asset_icon.dart';
 import 'package:tractian_mobile_app/core/abstracts/basic_entity.dart';
 
-class TreeItemTile extends GetView<GetxAssetsPresenter> {
+class TreeItemTile extends GetView<GetxAssetsController> {
+  // Represents a tile for given [AssetEntity or LocationEntity] from the list
+
   final BasicEntity entity;
   final int deepness;
   final RxBool isOpen = false.obs;
@@ -35,6 +37,7 @@ class TreeItemTile extends GetView<GetxAssetsPresenter> {
             },
             child: Row(
               children: [
+                //Setting leading components based on [deepness] and children
                 if (deepness == 0)
                   const SizedBox(
                     height: 35,
@@ -60,12 +63,16 @@ class TreeItemTile extends GetView<GetxAssetsPresenter> {
                           color: const Color(0xFFD8DFE6),
                         ),
                 ),
+
+                //Setting main content based on [BasicEntity] type and [name]
                 AssetIcon(
                   assetPath: leadingIcon,
                   color: const Color(0xFF2188FF),
                   scale: 1.5,
                 ).marginOnly(right: 5),
                 Text(entity.name).marginOnly(right: 5),
+
+                //Setting trailing icon based on possible [sensorType] and/or [status]
                 if (entity is AssetEntity &&
                     (entity as AssetEntity).sensorType != null)
                   AssetIcon(
