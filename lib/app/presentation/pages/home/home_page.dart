@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tractian_mobile_app/app/domain/entities/company_entity.dart';
-import 'package:tractian_mobile_app/app/presentation/presenters/getx_assets_presenter.dart';
-import 'package:tractian_mobile_app/app/presentation/presenters/getx_home_presenter.dart';
-import 'package:tractian_mobile_app/app/ui/common/components/asset_icon.dart';
+import 'package:tractian_mobile_app/app/presentation/controllers/getx_assets_controller.dart';
+import 'package:tractian_mobile_app/app/presentation/controllers/getx_home_controller.dart';
+import 'package:tractian_mobile_app/app/presentation/widgets/asset_icon.dart';
 import 'package:tractian_mobile_app/core/routes/routes.dart';
 
-class HomePage extends GetView<GetxHomePresenter> {
+class HomePage extends GetView<GetxHomeController> {
   const HomePage({super.key});
 
   @override
@@ -38,6 +38,7 @@ class HomePage extends GetView<GetxHomePresenter> {
 }
 
 class CompanyCard extends StatelessWidget {
+  // Displays the company for a given [CompanyEntity]
   final CompanyEntity entity;
 
   const CompanyCard(

@@ -4,7 +4,7 @@ import 'package:tractian_mobile_app/app/data/datasources/protocols/i_company_dat
 import 'package:tractian_mobile_app/app/data/repositories/company_repository.dart';
 import 'package:tractian_mobile_app/app/domain/repositories/i_company_repository.dart';
 import 'package:tractian_mobile_app/app/domain/usecases/get_companies_usecase.dart';
-import 'package:tractian_mobile_app/app/presentation/presenters/getx_home_presenter.dart';
+import 'package:tractian_mobile_app/app/presentation/controllers/getx_home_controller.dart';
 
 class HomeBindings implements Bindings {
   @override
@@ -14,6 +14,6 @@ class HomeBindings implements Bindings {
 
     Get.lazyPut(() => GetCompaniesUsecase(Get.find()));
 
-    Get.lazyPut(() => GetxHomePresenter(Get.find()));
+    Get.lazyPut(() => GetxHomeController(Get.find()));
   }
 }

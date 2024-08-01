@@ -1,13 +1,12 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tractian_mobile_app/app/domain/entities/asset_entity.dart';
-import 'package:tractian_mobile_app/app/presentation/presenters/getx_assets_presenter.dart';
-import 'package:tractian_mobile_app/app/ui/pages/assets/components/assets_header.dart';
-import 'package:tractian_mobile_app/app/ui/pages/assets/components/tree_item_tile.dart';
+import 'package:tractian_mobile_app/app/presentation/pages/assets/components/assets_header.dart';
+import 'package:tractian_mobile_app/app/presentation/pages/assets/components/tree_item_tile.dart';
+import 'package:tractian_mobile_app/app/presentation/controllers/getx_assets_controller.dart';
 
-class AssetsPage extends GetView<GetxAssetsPresenter> {
+class AssetsPage extends GetView<GetxAssetsController> {
   const AssetsPage({super.key});
 
   @override
@@ -16,6 +15,7 @@ class AssetsPage extends GetView<GetxAssetsPresenter> {
       () => Scaffold(
         appBar: _createAppBar(),
         body: controller.isLoading
+            // Display body replacement while screens load
             ? const Center(
                 child: Text(
                   'Carregando...',
@@ -67,12 +67,14 @@ class AssetsPage extends GetView<GetxAssetsPresenter> {
                     itemBuilder: (context, i) {
                       late int deepness;
                       if (idPath.contains(itemTree[i].parentId)) {
-                        final index = idPath.indexOf(itemTree[i].parentId);
+                        final index = idPath.indexOf(itemTree[i].parentId!);
                         deepness = index + 1;
                         idPath.removeRange(deepness, idPath.length);
                       } else if (itemTree[i] is AssetEntity &&
-                          idPath.contains(itemTree[i].locationId)) {
-                        final index = idPath.indexOf(itemTree[i].locationId);
+                          idPath.contains(
+                              (itemTree[i] as AssetEntity).locationId)) {
+                        final index = idPath
+                            .indexOf((itemTree[i] as AssetEntity).locationId!);
                         deepness = index + 1;
                         idPath.removeRange(deepness, idPath.length);
                       } else {
@@ -86,6 +88,7 @@ class AssetsPage extends GetView<GetxAssetsPresenter> {
                     },
                   ),
                 )
+              // Display body replacement if there's no item to be shown
               : const Text(
                   'Não há items para serem mostrados com as configurações desejadas',
                   textAlign: TextAlign.center,

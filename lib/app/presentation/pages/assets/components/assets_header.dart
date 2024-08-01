@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tractian_mobile_app/app/presentation/presenters/getx_assets_presenter.dart';
-import 'package:tractian_mobile_app/app/ui/common/components/asset_icon.dart';
+import 'package:tractian_mobile_app/app/presentation/controllers/getx_assets_controller.dart';
+import 'package:tractian_mobile_app/app/presentation/widgets/asset_icon.dart';
 
-class AssetsHeader extends GetView<GetxAssetsPresenter> {
+class AssetsHeader extends GetView<GetxAssetsController> {
+  // Displays the header for the page with search bar and filters
+
   const AssetsHeader({super.key});
 
   @override
@@ -12,7 +14,9 @@ class AssetsHeader extends GetView<GetxAssetsPresenter> {
       () => Column(
         children: [
           Column(children: [
+            // Sets component for search bar
             const CustomSearchField(),
+            // Sets components for filter buttons
             Row(children: [
               FilterItem(
                 'Sensor de Energia',
@@ -40,7 +44,7 @@ class AssetsHeader extends GetView<GetxAssetsPresenter> {
   }
 }
 
-class CustomSearchField extends GetView<GetxAssetsPresenter> {
+class CustomSearchField extends GetView<GetxAssetsController> {
   const CustomSearchField({super.key});
 
   @override

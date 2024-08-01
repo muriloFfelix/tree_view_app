@@ -3,10 +3,10 @@ import 'package:tractian_mobile_app/app/domain/entities/company_entity.dart';
 import 'package:tractian_mobile_app/app/domain/usecases/get_companies_usecase.dart';
 import 'package:tractian_mobile_app/core/abstracts/usecase.dart';
 
-class GetxHomePresenter extends GetxController {
+class GetxHomeController extends GetxController {
   final GetCompaniesUsecase getCompaniesUsecase;
 
-  GetxHomePresenter(
+  GetxHomeController(
     this.getCompaniesUsecase,
   );
 
